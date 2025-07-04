@@ -1,10 +1,19 @@
 import { FastifyInstance } from 'fastify'
-import { UserService } from '../services/user'
+import { CreateUserService } from '../services/user/create-user'
+import { isValidEmail } from '../middlewares/user/check-email-valid'
+import { isValidPassword } from '../middlewares/user/check-password-valid'
+import { isNameAndFamilyNameValid } from '../middlewares/user/check-name-famili-name-valid'
+import { UserRepository } from '../repository/user'
 
 export async function userRoutes(app: FastifyInstance) {
-  const service = new UserService()
+  const repository = new UserRepository()
+  const createUserService = new CreateUserService(repository)
 
-  app.post('/create', async (request, reply) => {
-    return await service.create(request, reply)
-  })
+  app.post(
+    '/create',
+    { preHandler: [isValidEmail, isValidPassword, isNameAndFamilyNameValid] },
+    async (request, reply) => {
+      return await createUserService.perform(request, reply)
+    },
+  )
 }

@@ -5,29 +5,37 @@ import { User } from '../../types/user/user'
 
 export class UserRepository {
   async create(user: CreateUser) {
-    await knex('user').insert({
-      id: randomUUID(),
-      name: user.name,
-      family_name: user.familyName,
-      email: user.email,
-      password: user.password,
-    })
+    try {
+      await knex('user').insert({
+        id: randomUUID(),
+        name: user.name,
+        family_name: user.familyName,
+        email: user.email,
+        password: user.password,
+      })
+    } catch {
+      throw new Error()
+    }
   }
 
   async get(email: string): Promise<User | undefined> {
-    const user = await knex('user').where('email', email).first()
+    try {
+      const user = await knex('user').where('email', email).first()
 
-    if (!user) return undefined
+      if (!user) return undefined
 
-    return {
-      id: user?.id,
-      name: user?.name,
-      familyName: user?.family_name,
-      email: user?.email,
-      password: user?.password,
-      emailConfirmed: user?.email_confirmed,
-      deleteDate: user?.delete_date,
-      createdAt: user?.created_at,
+      return {
+        id: user?.id,
+        name: user?.name,
+        familyName: user?.family_name,
+        email: user?.email,
+        password: user?.password,
+        emailConfirmed: user?.email_confirmed,
+        deleteDate: user?.delete_date,
+        createdAt: user?.created_at,
+      }
+    } catch {
+      throw new Error()
     }
   }
 }
