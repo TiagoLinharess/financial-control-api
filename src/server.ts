@@ -5,10 +5,11 @@ import { UserController } from './controllers/user'
 import { CreateUserService } from './services/user/create-user'
 import { UserRepository } from './repositories/user'
 import { iCreateUserService } from './types/user/create-user-service'
+import { iUserRepository } from './types/user/user-repository'
 
 const app = fastify()
 
-const userRepository = new UserRepository()
+const userRepository: iUserRepository = new UserRepository()
 const createUserService: iCreateUserService = new CreateUserService(
   userRepository,
 )

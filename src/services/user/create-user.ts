@@ -25,8 +25,9 @@ export class CreateUserService implements iCreateUserService {
         return reply.status(400).send({ error: 'email_exists' })
       }
 
-      await this.repository.create(user)
-      return reply.status(201).send({ success: true })
+      if (await this.repository.create(user)) {
+        return reply.status(201).send({ success: true })
+      }
     } catch {
       return reply.status(500).send({ error: 'internal_server_error' })
     }

@@ -18,7 +18,7 @@ export class UserController implements iUserController {
       '/create',
       { preHandler: [isValidEmail, isValidPassword, isNameAndFamilyNameValid] },
       async (request, reply) => {
-        return await this.createUserService.perform(request, reply)
+        return this.createUserService.perform(request, reply)
       },
     )
   }
