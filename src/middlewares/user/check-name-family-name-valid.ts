@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
-export const nameSchema = z.object({
+const nameSchema = z.object({
   name: z.string(),
   familyName: z.string(),
 })

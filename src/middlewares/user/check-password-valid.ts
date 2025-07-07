@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
-export const passwordSchema = z.object({
+const passwordSchema = z.object({
   password: z.string(),
 })
 
