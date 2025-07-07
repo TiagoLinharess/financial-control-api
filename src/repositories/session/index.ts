@@ -54,7 +54,7 @@ export class SessionRepository implements iSessionRepository {
 
       if (sessions.length === 0) return
 
-      if (sessions.length <= 5) return
+      if (sessions.length <= 3) return
 
       const oldestSession = sessions.reduce((oldest, session) => {
         return new Date(session.createdAt) < new Date(oldest.createdAt)

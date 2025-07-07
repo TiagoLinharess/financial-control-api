@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 
 export interface iCreateUserService {
-  perform(request: FastifyRequest, reply: FastifyReply): void
+  perform(request: FastifyRequest, reply: FastifyReply): Promise<FastifyReply>
 }

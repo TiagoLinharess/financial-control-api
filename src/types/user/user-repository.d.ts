@@ -3,5 +3,7 @@ import { iUser } from './user'
 
 export interface iUserRepository {
   create(user: iCreateUser): Promise<void>
-  get(email: string): Promise<iUser | undefined>
+  getByEmail(email: string): Promise<iUser | undefined>
+  getById(id: string): Promise<iUser | undefined>
+  updateUser(user: iEditUser, id: string): Promise<void>
 }

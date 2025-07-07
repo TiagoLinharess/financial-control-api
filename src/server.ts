@@ -10,6 +10,8 @@ import { iLoginService } from './types/user/login-service'
 import { LoginService } from './services/user/login'
 import { iSessionRepository } from './types/session/session-repository'
 import { SessionRepository } from './repositories/session'
+import { iEditUserService } from './types/user/edit-user-service'
+import { EditUserService } from './services/user/edit-user'
 
 const app = fastify()
 
@@ -18,6 +20,7 @@ const sessionRepository: iSessionRepository = new SessionRepository()
 
 // Authentication flow objects
 const userRepository: iUserRepository = new UserRepository()
+const editUserService: iEditUserService = new EditUserService(userRepository)
 const loginService: iLoginService = new LoginService(
   userRepository,
   sessionRepository,
@@ -28,7 +31,12 @@ const createUserService: iCreateUserService = new CreateUserService(
 const userController: iUserController = new UserController(
   createUserService,
   loginService,
+  editUserService,
 )
+
+// Fastify decorators
+app.decorate('sessionRepository', sessionRepository)
+app.decorate('userRepository', userRepository)
 
 // Fastify registers
 app.register(userController.userRoutes, {

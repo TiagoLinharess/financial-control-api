@@ -17,14 +17,17 @@ export class LoginService implements iLoginService {
     this.sessionRepository = sessionRepository
   }
 
-  async perform(request: FastifyRequest, reply: FastifyReply) {
+  async perform(
+    request: FastifyRequest,
+    reply: FastifyReply,
+  ): Promise<FastifyReply> {
     try {
       const schema = loginSchema.parse(request.body)
       const login: iLogin = {
         email: schema.email,
         password: schema.password,
       }
-      const user = await this.userRepository.get(login.email)
+      const user = await this.userRepository.getByEmail(login.email)
       const correctPassword = await bcrypt.compare(
         login.password,
         user?.password || '',
