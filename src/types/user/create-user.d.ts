@@ -24,7 +24,7 @@ export const createUserSchema = z.object({
   password: z.string(),
 })
 
-export interface CreateUser {
+export interface iCreateUser {
   name: string
   familyName: string
   email: string

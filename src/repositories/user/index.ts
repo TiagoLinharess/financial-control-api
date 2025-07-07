@@ -1,10 +1,11 @@
 import { knex } from '../../database'
-import { CreateUser } from '../../types/user/create-user'
+import { iCreateUser } from '../../types/user/create-user'
 import { randomUUID } from 'crypto'
-import { User } from '../../types/user/user'
+import { iUser } from '../../types/user/user'
+import { iUserRepository } from '../../types/user/user-repository'
 
-export class UserRepository {
-  async create(user: CreateUser) {
+export class UserRepository implements iUserRepository {
+  async create(user: iCreateUser) {
     try {
       await knex('user').insert({
         id: randomUUID(),
@@ -18,7 +19,7 @@ export class UserRepository {
     }
   }
 
-  async get(email: string): Promise<User | undefined> {
+  async get(email: string): Promise<iUser | undefined> {
     try {
       const user = await knex('user').where('email', email).first()
 

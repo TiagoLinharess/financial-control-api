@@ -1,4 +1,4 @@
-export interface User {
+export interface iUser {
   id: string
   name: string
   familyName: string

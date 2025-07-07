@@ -1,10 +1,20 @@
 import fastify from 'fastify'
 import { env } from './env'
-import { userRoutes } from './routes/user'
+import { iUserController } from './types/user/user-controller'
+import { UserController } from './controllers/user'
+import { CreateUserService } from './services/user/create-user'
+import { UserRepository } from './repositories/user'
+import { iCreateUserService } from './types/user/create-user-service'
 
 const app = fastify()
 
-app.register(userRoutes, {
+const userRepository = new UserRepository()
+const createUserService: iCreateUserService = new CreateUserService(
+  userRepository,
+)
+const userController: iUserController = new UserController(createUserService)
+
+app.register(userController.userRoutes, {
   prefix: 'user',
 })
 

@@ -1,18 +1,20 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { CreateUser, createUserSchema } from '../../types/user/create-user.d'
-import { UserRepository } from '../../repository/user'
+import { iCreateUser, createUserSchema } from '../../types/user/create-user.d'
+import { iUser } from '../../types/user/user'
+import { iCreateUserService } from '../../types/user/create-user-service'
+import { iUserRepository } from '../../types/user/user-repository'
 
-export class CreateUserService {
-  repository: UserRepository
+export class CreateUserService implements iCreateUserService {
+  repository: iUserRepository
 
-  constructor(repository: UserRepository) {
+  constructor(repository: iUserRepository) {
     this.repository = repository
   }
 
   async perform(request: FastifyRequest, reply: FastifyReply) {
     try {
       const userSchema = createUserSchema.parse(request.body)
-      const user: CreateUser = {
+      const user: iCreateUser = {
         name: userSchema.name,
         familyName: userSchema.familyName,
         email: userSchema.email,
@@ -30,9 +32,11 @@ export class CreateUserService {
     }
   }
 
-  private async emailExists(userCreateModel: CreateUser): Promise<boolean> {
+  private async emailExists(userCreateModel: iCreateUser): Promise<boolean> {
     try {
-      const user = await this.repository.get(userCreateModel.email)
+      const user: iUser | undefined = await this.repository.get(
+        userCreateModel.email,
+      )
       return !!user
     } catch {
       throw new Error()
