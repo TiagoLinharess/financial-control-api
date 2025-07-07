@@ -1,11 +1,16 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { createUserSchema } from '../../types/user/create-user.d'
+import { z } from 'zod'
+
+export const nameSchema = z.object({
+  name: z.string(),
+  familyName: z.string(),
+})
 
 export async function isNameAndFamilyNameValid(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const { name, familyName } = createUserSchema.parse(request.body)
+  const { name, familyName } = nameSchema.parse(request.body)
 
   if (!name || !name.trim() || !familyName || !familyName.trim()) {
     return reply.status(400).send({

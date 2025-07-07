@@ -4,18 +4,12 @@ import { isValidEmail } from '../../middlewares/user/check-email-valid'
 import { isValidPassword } from '../../middlewares/user/check-password-valid'
 import { isNameAndFamilyNameValid } from '../../middlewares/user/check-name-family-name-valid'
 import { iCreateUserService } from '../../types/user/create-user-service'
-import { iLoginService } from '../../types/user/login-service'
 
 export class UserController implements iUserController {
   createUserService: iCreateUserService
-  loginService: iLoginService
 
-  constructor(
-    createUserService: iCreateUserService,
-    loginService: iLoginService,
-  ) {
+  constructor(createUserService: iCreateUserService) {
     this.createUserService = createUserService
-    this.loginService = loginService
     this.userRoutes = this.userRoutes.bind(this)
   }
 
@@ -24,16 +18,7 @@ export class UserController implements iUserController {
       '/create',
       { preHandler: [isValidEmail, isValidPassword, isNameAndFamilyNameValid] },
       async (request, reply) => {
-        return this.createUserService.perform(request, reply)
-      },
-    )
-
-    app.post(
-      '/login',
-      { preHandler: [isValidEmail] },
-      async (request, reply) => {
-        console.log(1)
-        return this.loginService.perform(request, reply)
+        return await this.createUserService.perform(request, reply)
       },
     )
   }

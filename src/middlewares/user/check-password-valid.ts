@@ -1,11 +1,15 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { createUserSchema } from '../../types/user/create-user.d'
+import { z } from 'zod'
+
+export const passwordSchema = z.object({
+  password: z.string(),
+})
 
 export async function isValidPassword(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const { password } = createUserSchema.parse(request.body)
+  const { password } = passwordSchema.parse(request.body)
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/
 
   if (!passwordRegex.test(password)) {

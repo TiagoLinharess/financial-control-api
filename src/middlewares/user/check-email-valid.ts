@@ -1,11 +1,15 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { createUserSchema } from '../../types/user/create-user.d'
+import { z } from 'zod'
+
+export const emailSchema = z.object({
+  email: z.string(),
+})
 
 export async function isValidEmail(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const { email } = createUserSchema.parse(request.body)
+  const { email } = emailSchema.parse(request.body)
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
   if (!emailRegex.test(email)) {
