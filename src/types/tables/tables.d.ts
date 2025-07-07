@@ -13,5 +13,10 @@ declare module 'knex/types/tables' {
       delete_date?: string
       created_at: string
     }
+    session: {
+      id: string
+      user_id: string
+      created_at: string
+    }
   }
 }

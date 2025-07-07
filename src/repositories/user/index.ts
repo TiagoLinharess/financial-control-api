@@ -5,7 +5,7 @@ import { iUser } from '../../types/user/user'
 import { iUserRepository } from '../../types/user/user-repository'
 
 export class UserRepository implements iUserRepository {
-  async create(user: iCreateUser): Promise<boolean> {
+  async create(user: iCreateUser): Promise<void> {
     try {
       await knex('user').insert({
         id: randomUUID(),
@@ -14,8 +14,6 @@ export class UserRepository implements iUserRepository {
         email: user.email,
         password: user.password,
       })
-
-      return true
     } catch {
       throw new Error()
     }

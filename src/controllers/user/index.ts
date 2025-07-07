@@ -32,7 +32,6 @@ export class UserController implements iUserController {
       '/login',
       { preHandler: [isValidEmail] },
       async (request, reply) => {
-        console.log(1)
         return this.loginService.perform(request, reply)
       },
     )

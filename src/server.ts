@@ -8,12 +8,20 @@ import { iCreateUserService } from './types/user/create-user-service'
 import { iUserRepository } from './types/user/user-repository'
 import { iLoginService } from './types/user/login-service'
 import { LoginService } from './services/user/login'
+import { iSessionRepository } from './types/session/session-repository'
+import { SessionRepository } from './repositories/session'
 
 const app = fastify()
 
+// Session
+const sessionRepository: iSessionRepository = new SessionRepository()
+
 // Authentication flow objects
 const userRepository: iUserRepository = new UserRepository()
-const loginService: iLoginService = new LoginService(userRepository)
+const loginService: iLoginService = new LoginService(
+  userRepository,
+  sessionRepository,
+)
 const createUserService: iCreateUserService = new CreateUserService(
   userRepository,
 )
