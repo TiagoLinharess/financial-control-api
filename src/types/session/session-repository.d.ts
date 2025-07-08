@@ -5,4 +5,5 @@ export interface iSessionRepository {
   getAll(userID: string): Promise<iSession[]>
   get(sessionID: string): Promise<iSession | undefined>
   removeLast(userID: string): Promise<void>
+  removeAll(userID: string): Promise<void>
 }

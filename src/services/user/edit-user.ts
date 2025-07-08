@@ -23,9 +23,6 @@ export class EditUserService implements iEditUserService {
         familyName: schema.familyName,
       }
 
-      const user = await this.userRepository.getById(id)
-      if (!user) return reply.status(404).send({ error: 'user_not_found' })
-
       await this.userRepository.updateUser(editedUser, id)
 
       return reply.status(200).send(editedUser)

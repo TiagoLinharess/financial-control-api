@@ -4,6 +4,7 @@ import { randomUUID } from 'crypto'
 import { iUser } from '../../types/user/user'
 import { iUserRepository } from '../../types/user/user-repository'
 import { iEditUser } from '../../types/user/edit-user'
+import { iEditEmail } from '../../types/user/edit-email'
 
 export class UserRepository implements iUserRepository {
   async create(user: iCreateUser): Promise<void> {
@@ -67,6 +68,16 @@ export class UserRepository implements iUserRepository {
       await knex('user').where('id', id).update({
         name: user.name,
         family_name: user.familyName,
+      })
+    } catch {
+      throw new Error()
+    }
+  }
+
+  async updateEmail(data: iEditEmail, id: string): Promise<void> {
+    try {
+      await knex('user').where('id', id).update({
+        email: data.newEmail,
       })
     } catch {
       throw new Error()

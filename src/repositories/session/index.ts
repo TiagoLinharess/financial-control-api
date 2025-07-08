@@ -67,4 +67,12 @@ export class SessionRepository implements iSessionRepository {
       throw new Error()
     }
   }
+
+  async removeAll(userID: string): Promise<void> {
+    try {
+      await knex('session').where('user_id', userID).del()
+    } catch {
+      throw new Error()
+    }
+  }
 }
